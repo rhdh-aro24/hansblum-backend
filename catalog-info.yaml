@@ -1,0 +1,66 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: hansblum-poi-backend-app-dev
+  annotations:
+    argocd/app-name: hansblum-poi-backend-app-dev
+    backstage.io/kubernetes-id: hansblum-poi-backend-app
+    backstage.io/kubernetes-namespace: hansblum
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: rhdh-aro24/hansblum-backend
+    janus-idp.io/tekton-enabled: 'true'
+  tags:
+    - java
+    - quarkus
+    - maven
+    - workshop
+  links:
+    - url: https://console-openshift-console.apps.kovj5vhc.eastus.aroapp.io/dev-pipelines/ns/hansblum/
+      title: Pipelines
+      icon: web
+    - url: https://console-openshift-console.apps.kovj5vhc.eastus.aroapp.io/k8s/ns/hansblum/deployments/hansblum-poi-backend-app
+      title: Deployment
+      icon: web
+    - url: https://devspaces.apps.kovj5vhc.eastus.aroapp.io/#https://github.com/rhdh-aro24/hansblum-backend?che-editor=che-incubator/che-code/latest&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+spec:
+  type: service
+  lifecycle: production
+  owner: "user:vishal"
+  system: workshop-system-hansblum
+  providesApis:
+    - backend-api-hansblum
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: workshop-system-hansblum
+  tags:
+    - backstage
+    - janus-idp
+    - openshift
+    - workshop
+    - rh-summit
+spec:
+  owner: "user:vishal"
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: backend-api-hansblum
+  description: API surface used by workshop attendees to initialize and load parks data
+  links:
+    - url: https://hansblum-poi-backend-app-hansblum.apps.kovj5vhc.eastus.aroapp.io/q/swagger-ui
+      title: Swagger UI
+      icon: web
+    - url: https://github.com/rhdh-aro24/hansblum-backend/tree/main/src/main/resources/META-INF/openapi.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: "user:vishal"
+  system: workshop-system-hansblum
+  definition:
+    $text: https://github.com/rhdh-aro24/hansblum-backend/tree/main/src/main/resources/META-INF/openapi.yaml
